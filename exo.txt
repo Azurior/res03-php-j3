@@ -34,3 +34,12 @@ SELECT users.* FROM users JOIN orders ON orders.user_id = users.id GROUP BY user
 
 12 - La liste de tous les produits achetés par le premier utilisateur inscrit.
 SELECT * FROM products 
+JOIN products_orders
+    ON products_orders.product_id = products.id
+JOIN orders
+    ON orders.id = products_orders.order_id
+JOIN users
+    ON users.id = orders.user_id
+WHERE users.registration_date IN (
+    SELECT MIN(users.registration_date) FROM users
+)
